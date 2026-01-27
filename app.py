@@ -21,7 +21,7 @@ def load_sales_data(path: str, file_mtime: float) -> pd.DataFrame:
 
     file_mtime 参与缓存键，当文件更新时间变化或超过 ttl 时会自动重新加载。
     """
-    df = pd.read_excel(path)
+    df = pd.read_excel('supermarket_sales.xlsx')
     # 先统一清洗列名：去掉引号和首尾空格
     clean_cols = []
     for c in df.columns:
@@ -392,4 +392,5 @@ if not filtered_df.empty:
     )
 else:
     st.info("当前筛选条件下没有销售明细。")
+
 
