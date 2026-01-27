@@ -1,8 +1,8 @@
-import streamlit as st
-import pandas as pd
+导入streamlit作为st
+导入pandas作为pd
 import plotly.express as px
-from datetime import datetime
-import os
+从datetime导入datetime
+导入os
 
 
 # ========== 页面基础配置 ==========
@@ -17,7 +17,7 @@ st.set_page_config(
 # ========== 读取真实销售数据 ==========
 @st.cache_data(ttl=300)
 def load_sales_data(path: str, file_mtime: float) -> pd.DataFrame:
-    """读取 Excel 并做基础清洗。
+    “读取 Excel 并做基础清洗。”
 
     file_mtime 参与缓存键，当文件更新时间变化或超过 ttl 时会自动重新加载。
     """
@@ -392,5 +392,6 @@ if not filtered_df.empty:
     )
 else:
     st.info("当前筛选条件下没有销售明细。")
+
 
 
