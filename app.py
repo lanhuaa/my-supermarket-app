@@ -1,8 +1,8 @@
-导入streamlit作为st
-导入pandas作为pd
+import streamlit as st
+import pandas as pd
 import plotly.express as px
-从datetime导入datetime
-导入os
+from datetime import datetime
+import os
 
 
 # ========== 页面基础配置 ==========
@@ -17,11 +17,11 @@ st.set_page_config(
 # ========== 读取真实销售数据 ==========
 @st.cache_data(ttl=300)
 def load_sales_data(path: str, file_mtime: float) -> pd.DataFrame:
-    # 读取 Excel 并做基础清洗。
+    """读取 Excel 并做基础清洗.
 
-    file_mtime 参与缓存键，当文件更新时间变化或超过 ttl 时会自动重新加载。
+    file_mtime 参与缓存键, 当文件更新时间变化或超过 ttl 时会自动重新加载.
     """
-    df = pd.read_excel('supermarket_sales.xlsx')
+    df = pd.read_excel(path)
     # 先统一清洗列名：去掉引号和首尾空格
     clean_cols = []
     for c in df.columns:
@@ -32,9 +32,9 @@ def load_sales_data(path: str, file_mtime: float) -> pd.DataFrame:
         clean_cols.append(c_clean)
     df.columns = clean_cols
 
-    # 如果不存在标准列名“销售地区”，尝试自动纠正（例如命名略有不同）
+    # 如果不存在标准列名 "销售地区", 尝试自动纠正（例如命名略有不同）
     if "销售地区" not in df.columns:
-        # 简单规则：如果只有一列包含“地区”二字，则认为它是销售地区
+        # 简单规则：如果只有一列包含 "地区" 二字, 则认为它是销售地区
         candidate_cols = [c for c in df.columns if "地区" in str(c)]
         if len(candidate_cols) == 1:
             df = df.rename(columns={candidate_cols[0]: "销售地区"})
@@ -392,7 +392,4 @@ if not filtered_df.empty:
     )
 else:
     st.info("当前筛选条件下没有销售明细。")
-
-
-
 
